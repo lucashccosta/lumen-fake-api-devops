@@ -11,6 +11,9 @@ services:
       - _DB_DATABASE=ldops_db
       - _DB_USERNAME=root
       - _DB_PASSWORD=root
+      - _REDIS_HOST=redis
+      - _REDIS_PORT=6379
+      - _REDIS_DATABASE=0
     volumes:
       - .:/var/www
     networks:

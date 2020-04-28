@@ -11,6 +11,10 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->group(['prefix' => 'api/'], function() use($router) {
+    $router->post('login', 'AuthController@auth');
+
+    $router->group(['middleware' => 'jwt.auth'], function() use($router) {
+        $router->get('todos', 'TodoController@index');
+    });
 });

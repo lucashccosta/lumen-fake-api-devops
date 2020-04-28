@@ -19,7 +19,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Todo::class, function (Faker $faker) {
     return [
-        'user_id' => User::all()->random()->user_id,
+        'user_id' => User::all()->random()->id,
         'title' => $faker->name,
         'completed' => rand(0,1) == 1 ? true : false,
     ];
