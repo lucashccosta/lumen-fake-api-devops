@@ -11,7 +11,7 @@
 |
 */
 
-$router->group(['prefix' => 'api/'], function() use($router) {
+$router->group(['prefix' => 'api/', 'middleware' => 'log'], function() use($router) {
     $router->post('login', 'AuthController@auth');
 
     $router->group(['middleware' => 'jwt.auth'], function() use($router) {

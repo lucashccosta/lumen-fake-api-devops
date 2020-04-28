@@ -6,6 +6,9 @@ use Closure;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Check if request header have "Bearer <token>"
+ */
 class AuthMiddleware
 {
     /**

@@ -79,6 +79,7 @@ $app->configure('database');
 
 $app->routeMiddleware([
      'jwt.auth' => App\Http\Middleware\AuthMiddleware::class,
+     'log' => App\Http\Middleware\LogMiddleware::class,
  ]);
 
 /*

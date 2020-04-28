@@ -8,6 +8,7 @@
         "php": "^7.2.5",
         "illuminate/redis": "^7.9",
         "laravel/lumen-framework": "^7.0",
+        "mongodb/mongodb": "^1.6",
         "predis/predis": "^1.1"
     },
     "require-dev": {

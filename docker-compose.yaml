@@ -14,6 +14,11 @@ services:
       - _REDIS_HOST=redis
       - _REDIS_PORT=6379
       - _REDIS_DATABASE=0
+      - _MONGO_HOST=mongo
+      - _MONGO_PORT=27017
+      - _MONGO_DATABASE=ldops_nosql_db
+      - _MONGO_USER=root
+      - _MONGO_PASS=root
     volumes:
       - .:/var/www
     networks:
