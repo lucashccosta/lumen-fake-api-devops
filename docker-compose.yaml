@@ -1,0 +1,80 @@
+version: '3'
+services:
+
+  app:
+    container_name: ldops-app
+    build: ./.docker/app
+    entrypoint: dockerize -template ./.docker/app/.env:.env -wait tcp://mysql:3306 -timeout 40s ./.docker/app/entrypoint.sh
+    environment:
+      - _DB_HOST=mysql
+      - _DB_PORT=3306
+      - _DB_DATABASE=ldops_db
+      - _DB_USERNAME=root
+      - _DB_PASSWORD=root
+    volumes:
+      - .:/var/www
+    networks:
+      - ldops-network
+    depends_on:
+      - mysql
+      - redis
+      - mongo
+  
+  nginx:
+    container_name: ldops-nginx
+    build: ./.docker/nginx
+    restart: always
+    tty: true
+    ports:
+      - "81:80"
+    volumes: 
+      - .:/var/www
+    networks:
+      - ldops-network
+    depends_on:
+      - app
+
+  mysql:
+    container_name: ldops-mysql
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    restart: always
+    tty: true
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./.docker/data/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=ldops_db
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - ldops-network
+  
+  redis:
+    container_name: ldops-redis
+    image: redis:rc-alpine
+    ports:
+      - "6380:6379"
+    networks:
+      - ldops-network
+
+  mongo: 
+    container_name: ldops-mongo
+    image: mongo:latest
+    restart: always
+    tty: true
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=ldops_nosql_db
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - ./.docker/data/mongo:/data/db
+    networks:
+      - ldops-network
+  
+networks:
+  ldops-network:
+      driver: bridge
